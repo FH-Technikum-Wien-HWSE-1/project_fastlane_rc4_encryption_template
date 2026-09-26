@@ -1,0 +1,95 @@
+:icons: font
+:nofooter:
+
+= RC4 Encryption/Decryption Program
+
+Implement a program that can encrypt/decrypt data using RC4.
+
+link:https://en.wikipedia.org/wiki/RC4[RC4] is a simple (insecure!) encryption/decryption algorithm.
+
+It is a so-called "stream cipher", where a computer program generates
+a sequence of pseudo-random numbers which are subsequently XORed to the
+original data. This allows both encryption and decryption. This sequence
+is called "key stream", hence the name stream cipher.
+
+The keystream depends on the Key (Password) that is used.
+The same sequence is generated every time the same password is used.
+
+For example, the password `Key` leads to the keystream `0xEB 0x9F 0x77 0x81 ...`.
+The original text is XORed with the keystream.
+Thus, the original text `ABC` (`0x41 0x42 0x43` in Hex) is encrypted as follows: +
+`0x41^0xEB 0x42^0x9F 0x43^0x77` => `0xAA 0xDD 0x34`.
+
+To decrypt this text, simply the same key sequence must be XORed with `0xAA 0xDD 0x34`: +
+`0xAA^0xEB 0xDD^0x9F 0x34^0x77` => `0x41 0x42 0x43`
+
+== Implementation Steps
+
+Implement RC4 as follows:
+
+. Generate an array `S[256]` of 256 bytes (use the data type `uint8_t` from `<stdint.h>`)
+
+. Initialize this array with 0 ... 255 in ascending order (`S[0] == 0`, `S[1] == 1`, etc.)
+
+. Swap the elements in this array according to the following pseudocode:
++
+----
+j = 0
+for (i from 0 to 255) {
+    j := (j + S[i] + key[i % keylength]) % 256
+    swap values of S[i] and S[j]
+}
+----
++
+`key` in this case is the key to be used for encryption/decryption, and `keylength` the length of this key
+
+. Finally, read the input (original text) and generate output byte by byte:
++
+----
+i = 0
+j = 0
+while (1) {
+    byte = getByte()
+    exit loop if EOF or error detected
+
+    i = (i + 1) % 256
+    j = (j + S[i]) % 256
+    swap values of S[i] and S[j]
+    K = S[(S[i] + S[j]) % 256]
+
+    encryptedByte = K ^ byte
+    writeByte(encryptedByte)
+}
+----
++
+Here, K is the generated keystream that is XORed with the original byte to encrypt/decrypt it.
+
+NOTE: If encrypting ASCII text, the encrypted data will almost certainly contain some non-printable characters. You may look at the
+      encrypted file using a so-called Hex Editor.
+
+== Interface Specification
+
+Your program "rc4" shall provide the following command-line interface:
+
+----
+rc4 KEY INPUT_FILE OUTPUT_FILE
+----
+
+* `KEY` is the key (password) to be used for encryption/decryption. Its bytes shall be used as-is.
+        It must be between 5 and 256 characters long.
+* `INPUT_FILE` is the file to read the original text/message from
+* `OUTPUT_FILE` is the file to write the encrypted/decrypted message to
+
+IMPORTANT: Under Windows, open the `INPUT_FILE` using `"rb"` and the `OUTPUT_FILE` using `"wb"` to avoid automatic line-ending translation.
+
+== Testing
+
+Test your program as follows:
+
+* The password `Key` must lead to the keystream `0xEB 0x9F 0x77 0x81 ...`
+
+* Loopback test:
+. Generate a text file `in.txt` with some text in it.
+. Encrypt it using `RC4 <some password> in.txt encrypted.txt`.
+. Decrypt it using `RC4 <same password> encrypted.txt decrypted.txt`.
+. The content in the files `in.txt` and `decrypted.txt` must be exactly the same.

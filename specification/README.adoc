@@ -1,0 +1,173 @@
+= README -- Fast-Lane-Projekte
+
+== Fast Lane
+
+Erfahrene Programmiererinnen und Programmierer können die Lehrveranstaltung
+über eine alternative, projektbasierte Beurteilung absolvieren:
+
+* Die Programmierübungen müssen nicht abgegeben werden.
+* Die Anwesenheit in der Lehrveranstaltung ist nicht verpflichtend --
+  ausgenommen die Prüfung.
+* Kontaktieren Sie die Lehrenden, bevor Sie mit der Fast Lane beginnen.
+
+=== Projekt
+
+* Wählen Sie ein Projekt aus der Fast-Lane-Projektliste aus und setzen Sie es
+  um.
+* Das Projekt muss *vor dem ersten Prüfungstermin* fertiggestellt sein.
+* Verwenden Sie das bereitgestellte GitHub-classroom50 repository
+  oder GitLab repository-- oder verwenden Sie ein lokales Git-Repository und laden Sie ein
+  ZIP-Archiv in Moodle hoch.
+* Mindestens *5 Git-Commits*, die dem erwarteten wöchentlichen
+  Entwicklungsfortschritt entsprechen. Je gefordertem Commit 1 %.
+
+=== Prüfung
+
+* Eine Prüfung über den gesamten Inhalt der Lehrveranstaltung.
+* Sie findet am ersten Prüfungstermin gemeinsam mit den regulären Studierenden
+  statt.
+
+== Grundsatz
+
+Anders als bei den regulären Projekten gibt es bei den Fast-Lane-Projekten
+*keine Levels, zwischen denen Sie wählen können*: Die Angabe ist zur Gänze
+umzusetzen. Die nachfolgenden vier *Pflichtteile* sind daher keine optionalen
+Ausbaustufen, sondern Anforderungsblöcke, die *alle* im abgegebenen Programm
+erfüllt sein müssen. Sie beschreiben dieselben Themenblöcke des Lehrplans, die
+bei den regulären Projekten auf die Levels 1 bis 4 aufgeteilt sind.
+
+[cols="1,3",options="header"]
+|===
+| Pflichtteil | Konzepte
+
+| *Pflichtteil 1 -- Grundfunktionalität*
+| Variablen & Datentypen, Kontrollanweisungen & Operatoren, Bits & Bytes, Arrays
+
+| *Pflichtteil 2 -- Programmstruktur*
+| Zeiger, Funktionen, modulares Programmieren
+
+| *Pflichtteil 3 -- Ein-/Ausgabe*
+| Kommandozeilenargumente, File I/O, Fehlerbehandlung
+
+| *Pflichtteil 4 -- Speicherverwaltung*
+| Dynamisches Speichermanagement
+|===
+
+Die folgenden
+Abschnitte sind als *Hilfestellung* zu verstehen und dienen Ihnen als Checkliste vor der Abgabe für die Vorbereitung auf das Projektinterview.
+Im Projektinterview werden Ihnen *zu jedem dieser Pflichtteile Fragen gestellt und beurteilt*
+-- bereiten Sie sich daher auf alle vier Themenblöcke vor.
+
+== Beurteilung
+
+Die Note setzt sich aus zwei Teilen zusammen:
+
+[cols="3,1",options="header"]
+|===
+| Teil | Anteil an der Note
+
+| *Exam* -- Stoff ist der gesamte LV Inhalt
+| 70 %
+
+| *git commits* -- ca. 1 % pro git commit / Woche
+| 5 %
+
+| *Projektinterview*
+| 25 %
+|===
+
+
+=== Projektinterview
+
+Zu jeder Abgabe findet ein *Projektinterview* statt.
+
+* Es werden Fragen zu *jedem der vier Pflichtteile* gestellt -- zur
+  Grundfunktionalität, zur Programmstruktur, zur Ein-/Ausgabe und zur
+  Speicherverwaltung.
+* Sie beantworten die Fragen und nehmen Stellung zu einzelnen Stellen Ihres Codes -- warum Sie eine
+  Datenstruktur, einen Datentyp oder eine Konstruktion so gewählt haben und
+  was der Code konkret tut.
+* Sie zeigen, dass Sie kleine Änderungen oder Erweiterungen an Ihrem Code
+  vornehmen bzw. erklären könnten.
+
+Es wird *Ihr* Verständnis Ihrer Abgabe beurteilt, nicht Ihre Rhetorik.
+Code, den Sie im Interview nicht erklären können, wird nicht gewertet --
+unabhängig davon, ob er funktioniert. Ohne Teilnahme am Projektinterview kann
+das Projekt nicht positiv beurteilt werden.
+
+== Pflichtteil 1 -- Grundfunktionalität
+
+_Variablen & Datentypen, Kontrollanweisungen & Operatoren, Bits & Bytes, Arrays_
+
+* Der in der Angabe beschriebene Algorithmus ist *vollständig und korrekt*
+  umgesetzt und liefert für die in der Angabe genannten Beispiele die dort
+  angegebenen Ergebnisse.
+* Es werden *passende Datentypen* verwendet -- insbesondere Typen fester Breite
+  (`uint8_t`, `uint16_t`, ... aus `<stdint.h>`) überall dort, wo mit einzelnen
+  Bytes gearbeitet wird, sowie vorzeichenlose Typen bzw. `size_t` für Größen
+  und Indizes.
+* Bitoperationen (`&`, `|`, `^`, `<<`, `>>`) werden dort eingesetzt, wo die
+  Angabe es vorsieht bzw. wo sie die natürliche Lösung sind.
+* Kontrollstrukturen (Schleifen, Verzweigungen) werden sinnvoll und ohne
+  unnötige Verschachtelung eingesetzt. Kopierter, mehrfach nahezu identischer
+  Code wird vermieden.
+* Arrays werden korrekt indiziert; es wird *nie* über Array-Grenzen hinaus
+  gelesen oder geschrieben.
+
+== Pflichtteil 2 -- Programmstruktur
+
+_Zeiger, Funktionen, modulares Programmieren_
+
+* Das Programm ist in *mehrere Übersetzungseinheiten* (`*.c` / `*.h`)
+  aufgeteilt, die jeweils einen klar abgegrenzten Aufgabenbereich haben
+  (z. B. Argumentauswertung, Dateiformat, eigentlicher Algorithmus,
+  `main.c` mit dem Programmablauf).
+* Header-Dateien enthalten nur Deklarationen und besitzen einen
+  Include-Guard. Funktionen, die nur innerhalb einer Übersetzungseinheit
+  gebraucht werden, sind `static`.
+* Die Funktionalität ist in *aussagekräftige Funktionen* zerlegt; es gibt keine
+  überlangen Funktionen, die das gesamte Programm enthalten.
+* Datenstrukturen und Puffer werden *per Zeiger* an Funktionen übergeben,
+  nicht als Kopie. Der Unterschied zwischen Wert- und Zeigerübergabe muss
+  bewusst und richtig eingesetzt werden.
+* Globale Variablen werden vermieden.
+
+
+== Pflichtteil 3 -- Ein-/Ausgabe
+
+_Kommandozeilenargumente, File I/O, Fehlerbehandlung_
+
+* Die Kommandozeilenschnittstelle entspricht *exakt* der in der Angabe
+  festgelegten Form. Da die Angabe positionelle Argumente vorgibt, ist
+  `getopt(3)` hier *nicht* erforderlich; eigene Zusatzoptionen sind erlaubt,
+  dürfen die vorgegebene Schnittstelle aber nicht verändern.
+* Anzahl und Inhalt der Argumente werden *validiert*. Bei falscher Verwendung
+  gibt das Programm eine verständliche Verwendungsmeldung (Usage) auf `stderr`
+  aus und beendet sich mit einem Rückgabewert ungleich 0 (`EXIT_FAILURE`).
+* Der Rückgabewert *jedes* I/O-Aufrufs (`fopen`, `fread`/`fgetc`,
+  `fwrite`/`fputc`, `fclose`, ...) wird geprüft. Zwischen Dateiende und
+  Lesefehler wird korrekt unterschieden (`feof` / `ferror`).
+* Fehlerhafte, unvollständige oder nicht lesbare Eingabedateien führen *nicht*
+  zum Absturz: Das Problem wird gemeldet und das Programm beendet sich
+  kontrolliert mit einem Rückgabewert ungleich 0.
+* Alle geöffneten Dateien werden wieder geschlossen -- auch im Fehlerfall.
+* Fehlermeldungen gehen auf `stderr`, Nutzdaten (falls vorhanden) auf `stdout`.
+  Bestehende Dateien dürfen nicht ohne Notwendigkeit beschädigt werden.
+
+== Pflichtteil 4 -- Speicherverwaltung
+
+_Dynamisches Speichermanagement_
+
+* Das Programm arbeitet mit *beliebig großen Eingabedaten*. Es darf keine
+  willkürliche Obergrenze (z. B. ein fest dimensioniertes Bild oder ein fixer
+  Dateipuffer) geben; Speicher, dessen Größe erst zur Laufzeit bekannt ist,
+  wird *dynamisch* am Heap reserviert (`malloc` / `calloc` / `realloc`).
+* Der Rückgabewert jeder Speicheranforderung wird auf `NULL` geprüft und der
+  Fehler sauber behandelt.
+* Sämtlicher dynamisch reservierter Speicher wird vor Programmende wieder
+  freigegeben -- auch auf den Fehlerpfaden. Jeder Zeiger wird nach `free()`
+  nicht mehr verwendet.
+
+NOTE: Eine verkettete Liste ist in diesen beiden Projekten nicht erforderlich.
+      Beurteilt wird der korrekte und leckfreie Umgang mit dynamischem
+      Speicher.
